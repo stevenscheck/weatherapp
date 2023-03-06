@@ -4,6 +4,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useSelector } from 'react-redux';
 import morning2 from '../../../public/images/morning2.jpeg'
 import evening2 from '../../../public/images/evening2.jpeg'
+import sunny from '../../../public/images/sunny.jpeg'
+import partly from '../../../public/images/partlycloud.png'
+import overcast from '../../../public/images/overcast.png'
 // import { google } from 'google-maps';
 
 /**
@@ -20,6 +23,9 @@ const Home = (props) => {
   const [currentTime , setCurrentTime] = useState('')
   const [isLoading, setIsLoading] = useState(false);
   const [timeZone, setTimeZone] = useState('');
+  const [location, setLocation] = useState('')
+  const [weatherInfoStyle, setWeatherInfoStyle] = useState({})
+  const [clouds, setClouds] = useState('')
 
 
   
@@ -28,6 +34,8 @@ const Home = (props) => {
     const encodedCity = encodeURIComponent(cityInput)
     axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${encodedCity}&units=imperial&appid=${api_key}`).then((res) => {
     setCurrentTemp(res.data.main.temp)
+    setLocation(res.data.name)
+    setClouds(res.data.weather.description)
     setUnix(res.data.dt)
     setIsLoading(false)
     axios.get(`https://maps.googleapis.com/maps/api/timezone/json?location=${res.data.coord.lat},${res.data.coord.lon}&timestamp=${res.data.dt}&key=AIzaSyDSegxssrK-zOEkHd7Lab2nMFbTN2dlFJQ`)
@@ -81,12 +89,21 @@ const Home = (props) => {
   // }
   let backgroundImage = '';
 
-  if (parseInt(hour[0]) >= 6 && parseInt(hour[0]) < 1 && hour[3] === 'AM') {
-    backgroundImage = morning2;
-  } else if (parseInt(hour[0]) >= 1 && parseInt(hour[0]) < 7 && hour[3] === 'PM') {
-    backgroundImage = evening2;
-  } else {
-    backgroundImage = 'url(night.jpg)';
+  if (parseInt(hour[0]) >= 6 && parseInt(hour[0]) < 1 && hour[3] === 'AM' || parseInt(hour[0]) >= 1 && parseInt(hour[0]) < 7 && hour[3] === 'PM' && clouds === 'clear sky') {
+    // backgroundImage = morning2;
+    setWeatherInfoStyle({
+      backgroundImage: `url(${sunny})`
+    })
+  } else if (parseInt(hour[0]) >= 6 && parseInt(hour[0]) < 1 && hour[3] === 'AM' || parseInt(hour[0]) >= 1 && parseInt(hour[0]) < 7 && hour[3] === 'PM' && clouds === 'broken clouds' || 'few clouds' || 'scattered clouds') {
+    // backgroundImage = evening2;
+    setWeatherInfoStyle({
+      backgroundImage: `url(${partly})`
+    })
+  } else if (parseInt(hour[0]) >= 6 && parseInt(hour[0]) < 1 && hour[3] === 'AM' || parseInt(hour[0]) >= 1 && parseInt(hour[0]) < 7 && hour[3] === 'PM' && clouds === 'overcast clouds') {
+    // backgroundImage = 'url(night.jpg)';
+    setWeatherInfoStyle({
+      backgroundImage: `url(${overcast})`
+    })
   }
 
   const bodyStyles = {
@@ -129,6 +146,7 @@ const Home = (props) => {
 
   return (  
     <div className='mainPage'>
+      <div>
       <h3>Welcome</h3>
       <input type='text' placeholder='Enter A Location' value={cityInput} onChange={handleInputChange} />
       <ul>
@@ -142,13 +160,17 @@ const Home = (props) => {
         }
         })}
       </ul>
+      </div>
+      <div>
       {isLoading ? <CircularProgress /> : null}
       {currentTemp ? 
-      <div>
+      <div className='weatherInfo' style={weatherInfoStyle}>
+        <h4>Weather For {location}</h4>
         <h3>Local Time: {currentTime}</h3>
         <h3>Current Temp: {currentTemp}°F</h3>
       </div>
       : null}
+      </div>
     </div>
   );
 };
