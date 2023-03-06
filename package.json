@@ -1,7 +1,7 @@
 {
-  "name": "fs-app-template",
+  "name": "stock",
   "version": "2.0.0",
-  "description": "Some boilerplate code to get you started - get shakin'!",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "build": "webpack",
@@ -20,9 +20,11 @@
   "author": "Fullstack Academy of Code",
   "license": "MIT",
   "dependencies": {
+    "@material-ui/core": "^4.12.4",
     "bcrypt": "^5.1.0",
     "compression": "^1.7.4",
     "express": "^4.18.2",
+    "google-maps": "^4.3.3",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "pg": "^8.8.0",
@@ -39,6 +41,7 @@
     "babel-loader": "^8.2.5",
     "chai": "^4.3.6",
     "esm": "^3.2.25",
+    "file-loader": "^6.2.0",
     "mocha": "^10.1.0",
     "nodemon": "^2.0.20",
     "react": "^18.2.0",

@@ -1,5 +1,10 @@
 body {
   font-family: sans-serif;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  min-height: 100vh;
 }
 
 a {
@@ -18,4 +23,17 @@ nav a {
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+li {
+  text-decoration: none;
+  list-style: none;
+}
+
+.mainPage{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
 }
