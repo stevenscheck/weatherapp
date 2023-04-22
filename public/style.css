@@ -58,9 +58,11 @@ body{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 40vw;
+  width: 45vw;
   height: 20vh;
-  border-radius: 1rem;  
+  /* border-radius: 1rem;   */
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
   font-family: sans-serif;
 }
 
@@ -79,8 +81,8 @@ body{
   flex-direction: row;
   justify-content: center;
   gap: 1.5rem;
-  width: 40vw;
-  background-color: white;
+  width: 45vw;
+  background: linear-gradient(to bottom, #d8eeee, #d8eeee, #64adc9);
   border-radius: 1rem;
   padding: 1.5rem;
 }
@@ -93,6 +95,7 @@ body{
 .information{
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 5rem;
 }
 
@@ -141,4 +144,15 @@ body{
   background-color: gray;
 }
 
-
+.curCity{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 45vw;
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  background-color: #505050;
+  height: 3vw;
+  color: white;
+}

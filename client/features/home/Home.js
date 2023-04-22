@@ -43,7 +43,7 @@ const Home = (props) => {
   const [a, setA] = useState('')
   const [day, setDay] = useState('')
   const [filteredData, setFilteredData] = useState([])
-  const [count, setCount] = useState(0)
+  const [currentCity, setCurrentCity] = useState('')
   const [cur, setCur] = useState('')
   
 
@@ -106,6 +106,10 @@ const Home = (props) => {
     setBet(bet + 1)
     setLoad(!load)
   };
+
+  const handleCurrentCity = (city) => {
+    setCurrentCity(city)
+  }
 
   useEffect(() => {
     if(hourlyData.length){
@@ -200,6 +204,8 @@ const getLatLng = () => {
     );
   }, [cityInput]);
 
+  console.log(currentCity)
+
 
   return (  
     <div className='mainPage'>
@@ -211,7 +217,7 @@ const getLatLng = () => {
       {cityOptions.map((option) => {
         if(cityInput.length > 0){
           return(
-          <li onClick={() => handleCitySelect(option)} key={option.value} value={option.value}>
+          <li onClick={() => {handleCitySelect(option), handleCurrentCity(option.value)}} key={option.value} value={option.value}>
             {option.label}
           </li>
           )
@@ -222,7 +228,8 @@ const getLatLng = () => {
       </div>
       <div className='information'>
       <div>
-      {isLoading ? <CircularProgress /> : null}
+      {currentCity ? <h1 className='curCity'>Weather For {currentCity}</h1> : null}
+      {/* {isLoading ? <CircularProgress /> : null} */}
       {currentTemp ? 
       <div className='cl1' style={weatherInfoStyle}>
       <div className='weatherInfo'>
