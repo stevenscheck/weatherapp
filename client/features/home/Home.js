@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useSelector } from 'react-redux';
 import morning2 from '../../../public/images/morning2.jpeg'
@@ -42,7 +42,7 @@ const Home = (props) => {
   const [hourlyData, setHourlyData] = useState([]);
   const [a, setA] = useState('')
   const [day, setDay] = useState('')
-  const [filteredData, setFilteredData] = useState([])
+  // const [filteredData, setFilteredData] = useState([])
   const [currentCity, setCurrentCity] = useState('')
   const [cur, setCur] = useState('')
   
@@ -111,19 +111,30 @@ const Home = (props) => {
     setCurrentCity(city)
   }
 
-  useEffect(() => {
-    if(hourlyData.length){
-      console.log('1')
-    const filtered = (hourlyData.filter((item) => {
-      const o = (item.dt + 25200 + a)
-      const currentTime = new Date(o * 1000); 
-      console.log(currentTime.toLocaleTimeString(), currentTime, item.main.temp)
-      console.log(currentTime.toLocaleDateString(), day)
-      return currentTime.toLocaleDateString() == day
-    }))
-    setFilteredData(filtered)
-  }
-  }, [hourlyData])
+  // useEffect(() => {
+  //   if(hourlyData.length){
+  //     console.log('1')
+  //   const filtered = (hourlyData.filter((item) => {
+  //     const o = (item.dt + 25200 + a)
+  //     const currentTime = new Date(o * 1000); 
+  //     console.log(currentTime.toLocaleTimeString(), currentTime, item.main.temp)
+  //     console.log(currentTime.toLocaleDateString(), day)
+  //     return currentTime.toLocaleDateString() == day
+  //   }))
+  //   setFilteredData(filtered)
+  // }
+  // }, [hourlyData])
+
+  const filteredData = useMemo(() => {
+    if (hourlyData.length) {
+      return hourlyData.filter((item) => {
+        const o = (item.dt + 25200 + a)
+        const currentTime = new Date(o * 1000);
+        return currentTime.toLocaleDateString() == day
+      });
+    }
+    return [];
+  }, [hourlyData, a, day]);
 
   function convertTime(time){
     const w = time + 25200 + a
