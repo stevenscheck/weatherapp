@@ -60,7 +60,7 @@ body{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 45vw;
+  width: 50vw;
   height: 20vh;
   /* border-radius: 1rem;   */
   border-bottom-left-radius: 1rem;
@@ -83,7 +83,7 @@ body{
   flex-direction: row;
   justify-content: center;
   gap: 1.5rem;
-  width: 45vw;
+  width: 50vw;
   background: linear-gradient(to bottom, #d8eeee, #d8eeee, #64adc9);
   border-radius: 1rem;
   padding: 1.5rem;
@@ -151,7 +151,7 @@ body{
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 45vw;
+  width: 50vw;
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
   background-color: #505050;

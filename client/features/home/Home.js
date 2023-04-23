@@ -9,6 +9,7 @@ import partly from '../../../public/images/partlycloud.png'
 import overcast from '../../../public/images/overcast.png'
 import sunshine1 from '../../../public/images/sunshine1.jpeg'
 import wow from '../../../public/images/wow.jpeg'
+import nightimg from '../../../public/images/nightimg.jpeg'
 // import { google } from 'google-maps';
 
 /**
@@ -76,8 +77,8 @@ const Home = (props) => {
       setHourlyData(res.data.list);
     })
     .catch(error => console.log(error));
-    axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=imperial&appid=${api_key}`).then((res) => console.log(res.data))
-    axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lng}&appid=${api_key}&units=imperial&timezone=Australia/Sydney`).then(res => console.log(res.data))
+    // axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=imperial&appid=${api_key}`).then((res) => console.log(res.data))
+    // axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lng}&appid=${api_key}&units=imperial&timezone=Australia/Sydney`).then(res => console.log(res.data))
   }
 
   const handleInputChange = (e) => {
@@ -111,20 +112,6 @@ const Home = (props) => {
     setCurrentCity(city)
   }
 
-  // useEffect(() => {
-  //   if(hourlyData.length){
-  //     console.log('1')
-  //   const filtered = (hourlyData.filter((item) => {
-  //     const o = (item.dt + 25200 + a)
-  //     const currentTime = new Date(o * 1000); 
-  //     console.log(currentTime.toLocaleTimeString(), currentTime, item.main.temp)
-  //     console.log(currentTime.toLocaleDateString(), day)
-  //     return currentTime.toLocaleDateString() == day
-  //   }))
-  //   setFilteredData(filtered)
-  // }
-  // }, [hourlyData])
-
   const filteredData = useMemo(() => {
     if (hourlyData.length) {
       return hourlyData.filter((item) => {
@@ -152,13 +139,16 @@ const Home = (props) => {
       backgroundImage: `url(${sunshine1})`
     })
   } else if(icon === '03d' || icon === '04d' || icon === '09d' || icon === '10d' || icon === '11d' || icon === '13d' || icon === '50d'){
-    console.log('fasdfdas')
     setWeatherInfoStyle({
       backgroundImage: `url(${wow})`,
       WebkitBackgroundSize: 'cover',
       MozBackgroundSize: 'cover',
       OBackgroundSize: 'cover',
       backgroundSize: 'cover'
+    })
+  } else if(icon.split('')[2] === 'n'){
+    setWeatherInfoStyle({
+      backgroundImage: `url(${nightimg})`
     })
   }
  }
@@ -171,9 +161,7 @@ const getLatLng = () => {
       setLat(results[0].geometry.location.lat())
       setLng(results[0].geometry.location.lng())
       setCheck(check + 1)
-    } else {
-      console.log("Geocode was not successful for the following reason:", status);
-    }
+    } 
   });
 }
 
@@ -215,7 +203,6 @@ const getLatLng = () => {
     );
   }, [cityInput]);
 
-  console.log(currentCity)
 
 
   return (  
@@ -239,7 +226,7 @@ const getLatLng = () => {
       </div>
       <div className='information'>
       <div>
-      {currentCity ? <h1 className='curCity'>Weather For {currentCity}</h1> : null}
+      {filteredData.length ? <h1 className='curCity'>Weather For {currentCity}</h1> : null}
       {/* {isLoading ? <CircularProgress /> : null} */}
       {currentTemp ? 
       <div className='cl1' style={weatherInfoStyle}>
